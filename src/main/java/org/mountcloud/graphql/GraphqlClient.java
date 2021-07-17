@@ -9,6 +9,9 @@ import org.mountcloud.graphql.response.GraphqlResponse;
 import org.mountcloud.graphql.util.HttpClientUtil;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +67,7 @@ public class GraphqlClient {
      * @return response
      * @throws IOException Exception
      */
-    public <T extends GraphqlQuery> GraphqlResponse doQuery(T query) throws IOException {
+    public <T extends GraphqlQuery> GraphqlResponse doQuery(T query) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         return doQuery(query, GraphqlRequestType.POST);
     }
 
@@ -76,7 +79,7 @@ public class GraphqlClient {
      * @return response
      * @throws IOException Exception
      */
-    public <T extends GraphqlQuery> GraphqlResponse doQuery(T query, GraphqlRequestType graphqlRequestType) throws IOException {
+    public <T extends GraphqlQuery> GraphqlResponse doQuery(T query, GraphqlRequestType graphqlRequestType) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         String json = query.toString();
         String result = doHttpRequest(json,graphqlRequestType);
         if(result==null){
@@ -94,7 +97,7 @@ public class GraphqlClient {
      * @return response
      * @throws IOException Exception
      */
-    public <T extends GraphqlMutation> GraphqlResponse doMutation(T mutation) throws IOException {
+    public <T extends GraphqlMutation> GraphqlResponse doMutation(T mutation) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         return doMutation(mutation,GraphqlRequestType.POST);
     }
 
@@ -106,7 +109,7 @@ public class GraphqlClient {
      * @return response
      * @throws IOException Exception
      */
-    public <T extends GraphqlMutation> GraphqlResponse doMutation(T mutation, GraphqlRequestType graphqlRequestType) throws IOException {
+    public <T extends GraphqlMutation> GraphqlResponse doMutation(T mutation, GraphqlRequestType graphqlRequestType) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         String json = mutation.toString();
         String result = doHttpRequest(json,graphqlRequestType);
         if(result==null){
@@ -126,7 +129,7 @@ public class GraphqlClient {
      * @return 返回执行结果
      * @throws IOException  Exception
      */
-    private String doHttpRequest(String json,GraphqlRequestType type) throws IOException {
+    private String doHttpRequest(String json,GraphqlRequestType type) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         String result = null;
         if(type.equals(GraphqlRequestType.POST)){
             result = httpClientUtil.doPostJson(graphqlServerUrl,json,this.httpHeaders);
